@@ -8,6 +8,8 @@
 makeCacheMatrix <- function(x = matrix()) {
   i <- NULL
   set <- function(y) {
+    # We use the '<<-' operator to assign a value to an object in an environment that is different 
+    # from the current environment.
     x <<- y
     i <<- NULL
   }
@@ -26,13 +28,17 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 cacheSolve <- function(x, ...) {
+  # Check if the inverse has been calculated
   i <- x$getinverse()
   if(!is.null(i)) {
     message("getting cached data")
+  # Get the cached value and skip the computation
     return(i)
   }
+  
+  # Otherwise calculate the inverse here:
   data <- x$get()
   i <- solve(data, ...)
   x$setinverse(i)
-  i      ## Return a matrix that is the inverse of 'x'
+  i      ## Return the matrix that is the inverse of 'x'
 }
